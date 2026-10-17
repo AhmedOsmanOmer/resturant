@@ -389,3 +389,71 @@ address {
 .footer-bottom p {
   margin: 0;
 }
+
+@media (min-width: 640px) {
+  .hero h1 {
+    font-size: 3.4rem;
+  }
+
+  #about .container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  form {
+    grid-template-columns: 1fr 1fr;
+    padding: 2rem;
+  }
+
+  .form-field:last-of-type,
+  form .btn {
+    grid-column: 1 / -1;
+  }
+
+  form .btn {
+    justify-self: start;
+    width: auto;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 960px) {
+  header .container {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  nav ul {
+    gap: 0.5rem 2rem;
+  }
+
+  section {
+    padding: 6rem 0;
+  }
+
+  .hero {
+    padding: 8rem 0;
+  }
+
+  .hero h1 {
+    font-size: 4.5rem;
+  }
+
+  .tagline {
+    font-size: 1.25rem;
+  }
+
+  #about .container {
+    gap: 4rem;
+  }
+
+  .menu-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
