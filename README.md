@@ -1,65 +1,100 @@
 # Saffron & Olive
 
-A single-page website for Saffron & Olive, a fictional Mediterranean restaurant in Berlin. Built for a web development course with plain HTML5 and CSS3.
+A single-page website for Saffron & Olive, a fictional Mediterranean restaurant in Berlin. It was first built for a web development course with plain HTML and CSS (Assignment 1). This version rebuilds it with Vite, React and Tailwind CSS (Assignment 2), and keeps the same content, photos and look.
 
-## Features
+## What changed in Assignment 2
 
-- Sticky header with navigation that scrolls smoothly to each section
-- Hero section with a background photo, a soft dark gradient and two calls to action
-- About section with the restaurant story, three key facts and a kitchen photo
-- Menu with starters, mains and desserts, four dishes each with description and price
-- Reservation form with labeled fields and built-in browser validation (no backend)
-- Footer with opening hours, address and contact details
-- Hover and keyboard focus states on links, buttons, cards and form fields
-- Mobile-first, responsive layout with no horizontal scroll from 360px up
+- The page is now a React app built with Vite instead of a static `index.html` and `css/style.css`
+- The page is split into small components: header, hero, about, menu, reservation and footer
+- All 12 dishes now live in one data file, `src/data/menu.js`, and the menu is rendered from it with `map`
+- New: a category filter (All, Starters, Mains, Desserts) built with `useState`
+- New: a quantity stepper on every dish and an order summary with item count and total in €
+- All styling is done with Tailwind utility classes. Colors and fonts are set as theme tokens in `src/index.css`
+- The photos moved from `images/` to `public/images/`
 
 ## Tech used
 
-- HTML5 with semantic elements: `header`, `nav`, `main`, `section`, `article`, `footer`, `address`
-- CSS3 with custom properties (variables) for all colors and fonts
-- Flexbox for the header, hero buttons, menu items and footer bar
-- CSS Grid for the about section, facts, menu cards, form and footer
+- [Vite](https://vite.dev/) for the dev server and build
+- [React](https://react.dev/) with function components, props and `useState`
+- [Tailwind CSS](https://tailwindcss.com/) v4 with the official Vite plugin
 - Google Fonts: Playfair Display for headings and Inter for body text
-- No JavaScript, no frameworks, no libraries
+- Plain JavaScript (no TypeScript) and no other libraries
+
+## How to run
+
+You need [Node.js](https://nodejs.org/) installed.
+
+```bash
+npm install
+npm run dev
+```
+
+Then open the address shown in the terminal (usually http://localhost:5173).
+
+To make a production build in the `dist/` folder:
+
+```bash
+npm run build
+```
 
 ## Folder structure
 
 ```
 .
 ├── index.html
-├── css/
-│   └── style.css
-├── images/
-│   ├── hero.jpg
-│   ├── about.jpg
-│   ├── starters.jpg
-│   ├── mains.jpg
-│   └── desserts.jpg
-├── README.md
-└── .gitignore
+├── package.json
+├── vite.config.js
+├── public/
+│   └── images/
+│       ├── hero.jpg
+│       ├── about.jpg
+│       ├── starters.jpg
+│       ├── mains.jpg
+│       └── desserts.jpg
+└── src/
+    ├── main.jsx
+    ├── App.jsx
+    ├── index.css
+    ├── data/
+    │   └── menu.js
+    └── components/
+        ├── Header.jsx
+        ├── Hero.jsx
+        ├── About.jsx
+        ├── Menu.jsx
+        ├── MenuItem.jsx
+        ├── QuantityStepper.jsx
+        ├── Reservation.jsx
+        └── Footer.jsx
 ```
 
-## How to run
+## How the menu works
 
-Download or clone the repository and open `index.html` in any modern browser. No build step or server is needed.
+### Category filter with useState
 
-## Responsive breakpoints
+`Menu.jsx` keeps the selected category in state:
 
-| Width | Layout |
-| --- | --- |
-| Below 640px | Mobile: one column everywhere, full-width form button |
-| 640px and up | Tablet: about, form and footer in two columns |
-| 960px and up | Desktop: menu and footer in three columns, larger hero and more spacing |
+```jsx
+const [category, setCategory] = useState('All')
+```
 
-## What I learned
+Each filter button calls `setCategory` with its own name when it is clicked. React then renders `Menu` again with the new value. On every render the component builds the list to show: all dishes when the category is `All`, otherwise `menu.filter((item) => item.category === category)`. The active button gets different colors and `aria-pressed="true"`, so screen readers know which filter is on.
 
-- How to structure a page with semantic HTML so it is clear for browsers, search engines and screen readers
-- Writing CSS mobile first and adding `min-width` media queries for larger screens
-- When to use Flexbox (one direction) and when to use Grid (rows and columns)
-- Using CSS variables to keep colors and fonts consistent in one place
-- Making images responsive with `object-fit`, `aspect-ratio`, `width` and `height` attributes and lazy loading
-- Adding visible `focus-visible` states so the site works with a keyboard
-- Committing work in small, clear steps with Git
+### Controlled QuantityStepper
+
+`QuantityStepper` has no state of its own. It gets its number from the `value` prop and reports a click by calling the `onChange` prop with the new number (`value - 1` or `value + 1`). The minus button is disabled at `min` and the plus button at `max`. Each button has an `aria-label` such as "Add one Hummus trio".
+
+The quantities live in the parent, `Menu.jsx`, in one state object keyed by dish id:
+
+```jsx
+const [quantities, setQuantities] = useState({})
+```
+
+Keeping the state in `Menu` means it can add up every quantity for the order summary, and the numbers stay the same when you switch categories.
+
+## Responsive design
+
+The layout is mobile first. Classes without a prefix are for phones, and `sm:` (640px) and `lg:` (1024px) only add changes for bigger screens. There is no horizontal scroll at 360px, 768px or 1280px.
 
 ## Photo credits
 
@@ -67,11 +102,11 @@ All photos come from Wikimedia Commons. They were resized and compressed for the
 
 | File | Photo | Author | License |
 | --- | --- | --- | --- |
-| `images/hero.jpg` | [11 Depot St, Concord, United States (Unsplash)](https://commons.wikimedia.org/wiki/File:11_Depot_St,_Concord,_United_States_(Unsplash).jpg) | Michael Browning | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
-| `images/about.jpg` | [Kokos Fusion - Eggplant bayildi 7](https://commons.wikimedia.org/wiki/File:Kokos_Fusion_-_Eggplant_bayildi_7.jpg) | Journalistgm | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
-| `images/starters.jpg` | [Hummus dish on a plate](https://commons.wikimedia.org/wiki/File:Hummus_dish_on_a_plate.jpg) | Bykim2012 | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
-| `images/mains.jpg` | [Seabass (levrek) and a grilled potato](https://commons.wikimedia.org/wiki/File:Seabass_(levrek)_and_a_grilled_potato.jpg) | E4024 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
-| `images/desserts.jpg` | [Fıstıklı Baklava](https://commons.wikimedia.org/wiki/File:F%C4%B1st%C4%B1kl%C4%B1_Baklava.jpg) | Garrett Ziegler | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `public/images/hero.jpg` | [11 Depot St, Concord, United States (Unsplash)](https://commons.wikimedia.org/wiki/File:11_Depot_St,_Concord,_United_States_(Unsplash).jpg) | Michael Browning | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `public/images/about.jpg` | [Kokos Fusion - Eggplant bayildi 7](https://commons.wikimedia.org/wiki/File:Kokos_Fusion_-_Eggplant_bayildi_7.jpg) | Journalistgm | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `public/images/starters.jpg` | [Hummus dish on a plate](https://commons.wikimedia.org/wiki/File:Hummus_dish_on_a_plate.jpg) | Bykim2012 | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `public/images/mains.jpg` | [Seabass (levrek) and a grilled potato](https://commons.wikimedia.org/wiki/File:Seabass_(levrek)_and_a_grilled_potato.jpg) | E4024 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `public/images/desserts.jpg` | [Fıstıklı Baklava](https://commons.wikimedia.org/wiki/File:F%C4%B1st%C4%B1kl%C4%B1_Baklava.jpg) | Garrett Ziegler | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
 
 The resized versions of the CC BY-SA photos are shared under the same CC BY-SA 4.0 license.
 

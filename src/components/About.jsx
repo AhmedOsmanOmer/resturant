@@ -7,7 +7,7 @@ const facts = [
 function About() {
   return (
     <section id="about" className="scroll-mt-28 py-16 lg:py-24">
-      <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 sm:grid-cols-2 lg:gap-16">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 lg:grid-cols-2 lg:gap-16">
         <div>
           <h2 className="mb-6 font-heading text-[2rem] leading-tight font-semibold text-dark after:mt-4 after:block after:h-0.5 after:w-14 after:bg-gold">
             Our story
@@ -20,8 +20,8 @@ function About() {
           </p>
           <ul className="mt-8 grid grid-cols-3 gap-3">
             {facts.map((fact) => (
-              <li key={fact.label} className="rounded-md bg-dark px-2 py-4 text-center">
-                <strong className="block font-heading text-xl leading-tight text-gold">{fact.value}</strong>
+              <li key={fact.label} className="rounded-md bg-dark px-2 py-4 text-center sm:py-5">
+                <strong className="block font-heading text-lg leading-tight text-gold sm:text-2xl">{fact.value}</strong>
                 <span className="mt-1.5 block text-xs tracking-wider text-cream uppercase">{fact.label}</span>
               </li>
             ))}
@@ -33,7 +33,7 @@ function About() {
           width="900"
           height="600"
           loading="lazy"
-          className="aspect-4/3 w-full rounded-md object-cover shadow-xl shadow-dark/20"
+          className="aspect-4/3 w-full rounded-md object-cover shadow-xl shadow-dark/20 sm:aspect-video lg:aspect-4/3"
         />
       </div>
     </section>
