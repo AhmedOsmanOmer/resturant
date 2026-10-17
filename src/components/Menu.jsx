@@ -1,7 +1,14 @@
+import { useState } from 'react'
 import menu from '../data/menu'
 import MenuItem from './MenuItem'
 
+const categories = ['All', 'Starters', 'Mains', 'Desserts']
+
 function Menu() {
+  const [category, setCategory] = useState('All')
+
+  const items = category === 'All' ? menu : menu.filter((item) => item.category === category)
+
   return (
     <section id="menu" className="scroll-mt-28 py-16 lg:py-24">
       <div className="mx-auto max-w-6xl px-5">
@@ -11,8 +18,25 @@ function Menu() {
         <p className="max-w-2xl leading-relaxed text-muted">
           A seasonal menu built for sharing, with dishes from the coasts of Lebanon, Greece, Turkey and Sicily.
         </p>
-        <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {menu.map((item) => (
+        <div className="mt-8 flex flex-wrap gap-2">
+          {categories.map((name) => (
+            <button
+              key={name}
+              type="button"
+              aria-pressed={category === name}
+              onClick={() => setCategory(name)}
+              className={`cursor-pointer rounded-full border px-4 py-2 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${
+                category === name
+                  ? 'border-dark bg-dark text-gold'
+                  : 'border-line bg-white text-dark hover:border-gold'
+              }`}
+            >
+              {name}
+            </button>
+          ))}
+        </div>
+        <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((item) => (
             <MenuItem key={item.id} item={item} />
           ))}
         </ul>
