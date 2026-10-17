@@ -297,3 +297,54 @@ nav .btn {
   white-space: nowrap;
   color: var(--dark);
 }
+
+#reservation .container > p {
+  color: var(--muted);
+}
+
+form {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 6px;
+  background: var(--white);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--dark) 8%, transparent);
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--cream);
+  font: inherit;
+  color: var(--text);
+}
+
+.form-field textarea {
+  resize: vertical;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  border-color: var(--gold);
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+  background: var(--white);
+}
+
+form .btn {
+  width: 100%;
+  padding: 0.95rem 1.6rem;
+  font-size: 1rem;
+}
