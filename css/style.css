@@ -348,3 +348,44 @@ form .btn {
   padding: 0.95rem 1.6rem;
   font-size: 1rem;
 }
+
+footer {
+  padding-top: 4rem;
+  background: var(--dark);
+  color: var(--cream);
+  font-size: 0.95rem;
+}
+
+.footer-grid {
+  display: grid;
+  gap: 2.5rem;
+}
+
+footer h2 {
+  margin-bottom: 1rem;
+  font-size: 1.15rem;
+  color: var(--gold);
+}
+
+footer li {
+  margin-bottom: 0.4rem;
+}
+
+address {
+  font-style: normal;
+}
+
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  margin-top: 3rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--dark-soft);
+  font-size: 0.85rem;
+}
+
+.footer-bottom p {
+  margin: 0;
+}
