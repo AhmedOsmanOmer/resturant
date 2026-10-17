@@ -1,0 +1,22 @@
+:root {
+  --dark: #1c1612;
+  --dark-soft: #2a211b;
+  --cream: #f7f1e6;
+  --gold: #c9a45c;
+  --text: #2b2420;
+  --muted: #6f645a;
+  --white: #ffffff;
+  --border: #e4d9c6;
+  --font-heading: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
