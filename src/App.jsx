@@ -1,8 +1,22 @@
+import Header from './components/Header'
+import Hero from './components/Hero'
+import About from './components/About'
+import Menu from './components/Menu'
+import Reservation from './components/Reservation'
+import Footer from './components/Footer'
+
 function App() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-dark px-5 text-center">
-      <h1 className="font-heading text-4xl font-bold text-white">Saffron & Olive</h1>
-    </main>
+    <>
+      <Header />
+      <main>
+        <Hero />
+        <About />
+        <Menu />
+        <Reservation />
+      </main>
+      <Footer />
+    </>
   )
 }
 
