@@ -147,3 +147,41 @@ nav .btn {
   padding: 0.45rem 1rem;
   font-size: 0.85rem;
 }
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 85vh;
+  padding: 6rem 0;
+  background-color: var(--dark);
+  background-image: linear-gradient(to bottom, color-mix(in srgb, var(--dark) 55%, transparent), color-mix(in srgb, var(--dark) 85%, transparent)), url("../images/hero.jpg");
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  color: var(--cream);
+}
+
+.hero .container {
+  width: 100%;
+}
+
+.hero h1 {
+  margin-bottom: 1rem;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.tagline {
+  max-width: 36rem;
+  margin: 0 auto 2rem;
+  font-size: 1.1rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
