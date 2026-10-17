@@ -158,6 +158,43 @@
         </div>
       </div>
     </section>
+    <section id="reservation">
+      <div class="container">
+        <h2>Reserve a table</h2>
+        <p>Book online and we will confirm your table by email within a few hours.</p>
+        <form action="#" method="get">
+          <div class="form-field">
+            <label for="name">Full name</label>
+            <input type="text" id="name" name="name" autocomplete="name" required>
+          </div>
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </div>
+          <div class="form-field">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel">
+          </div>
+          <div class="form-field">
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" required>
+          </div>
+          <div class="form-field">
+            <label for="time">Time</label>
+            <input type="time" id="time" name="time" min="12:00" max="22:00" required>
+          </div>
+          <div class="form-field">
+            <label for="guests">Number of guests</label>
+            <input type="number" id="guests" name="guests" min="1" max="12" value="2" required>
+          </div>
+          <div class="form-field">
+            <label for="notes">Notes</label>
+            <textarea id="notes" name="notes" rows="4" placeholder="Allergies, high chair, a special occasion..."></textarea>
+          </div>
+          <button type="submit" class="btn">Request reservation</button>
+        </form>
+      </div>
+    </section>
   </main>
 </body>
 </html>
