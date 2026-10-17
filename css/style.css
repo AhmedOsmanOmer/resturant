@@ -230,3 +230,70 @@ nav .btn {
   border-radius: 6px;
   box-shadow: 0 18px 40px color-mix(in srgb, var(--dark) 18%, transparent);
 }
+
+#menu .container > p {
+  max-width: 40rem;
+  color: var(--muted);
+}
+
+.menu-grid {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.menu-card {
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--white);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--dark) 8%, transparent);
+}
+
+.menu-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.menu-card h3 {
+  margin: 1.5rem 1.5rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--gold);
+  font-size: 1.5rem;
+}
+
+.menu-card ul {
+  padding: 0.5rem 1.5rem 1.5rem;
+}
+
+.menu-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item h4 {
+  margin-bottom: 0.25rem;
+  font-size: 1.05rem;
+}
+
+.menu-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.price {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--dark);
+}
