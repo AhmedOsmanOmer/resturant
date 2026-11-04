@@ -79,7 +79,7 @@ function OrderStatus({ orderId, setQuantities, onClose }) {
       {status === 'paid' && order && (
         <>
           <h2 className="font-heading text-2xl font-semibold text-dark">Thank you, your order is paid</h2>
-          <p className="mt-2 text-muted">We have started preparing it. A receipt is on its way to your email.</p>
+          <p className="mt-2 text-muted">We have received your payment and started preparing your order.</p>
           <ul className="mt-6 divide-y divide-line border-y border-line">
             {order.items.map((item) => (
               <li key={item.id} className="flex items-baseline justify-between gap-4 py-3">

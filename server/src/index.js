@@ -9,6 +9,18 @@ import checkoutRouter from './routes/checkout.js'
 import ordersRouter from './routes/orders.js'
 import stripeWebhook from './routes/webhooks.js'
 
+const required = ['DATABASE_URL', 'BETTER_AUTH_SECRET', 'BETTER_AUTH_URL', 'CLIENT_ORIGIN']
+
+for (const name of required) {
+  if (!process.env[name]) {
+    throw new Error(`${name} is missing. Add it to server/.env or to your hosting variables.`)
+  }
+}
+
+if (!process.env.STRIPE_WEBHOOK_SECRET) {
+  console.warn('STRIPE_WEBHOOK_SECRET is empty, so Stripe webhooks will be rejected until you add it.')
+}
+
 const app = express()
 const port = process.env.PORT || 3000
 
