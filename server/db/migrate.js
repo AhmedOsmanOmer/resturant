@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import pool from '../src/db.js'
 
-const files = ['schema.sql', 'auth-schema.sql']
+const files = ['schema.sql', 'auth-schema.sql', 'orders-schema.sql']
 
 try {
   for (const file of files) {
