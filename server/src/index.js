@@ -1,16 +1,24 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
+import { toNodeHandler } from 'better-auth/node'
+import { auth } from './auth.js'
+import requireAuth from './middleware/requireAuth.js'
 import menuRouter from './routes/menu.js'
 
 const app = express()
 const port = process.env.PORT || 3000
 
 app.use(cors({ origin: process.env.CLIENT_ORIGIN, credentials: true }))
+app.all('/api/auth/*splat', toNodeHandler(auth))
 app.use(express.json())
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' })
+})
+
+app.get('/api/me', requireAuth, (req, res) => {
+  res.json({ user: req.user })
 })
 
 app.use('/api/menu', menuRouter)
