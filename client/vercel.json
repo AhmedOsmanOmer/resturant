@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://YOUR-RAILWAY-DOMAIN/api/$1"
+      "destination": "resturant-production-5309.up.railway.app"
     }
   ]
 }
