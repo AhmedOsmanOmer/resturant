@@ -5,6 +5,7 @@ import { toNodeHandler } from 'better-auth/node'
 import { auth } from './auth.js'
 import requireAuth from './middleware/requireAuth.js'
 import menuRouter from './routes/menu.js'
+import checkoutRouter from './routes/checkout.js'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -22,6 +23,7 @@ app.get('/api/me', requireAuth, (req, res) => {
 })
 
 app.use('/api/menu', menuRouter)
+app.use('/api/checkout', checkoutRouter)
 
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server running on port ${port}`)
