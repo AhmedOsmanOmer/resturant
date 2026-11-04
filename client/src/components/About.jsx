@@ -6,7 +6,7 @@ const facts = [
 
 function About() {
   return (
-    <section id="about" className="scroll-mt-28 py-16 lg:py-24">
+    <section id="about" className="scroll-mt-32 py-16 lg:scroll-mt-24 lg:py-24">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 lg:grid-cols-2 lg:gap-16">
         <div>
           <h2 className="mb-6 font-heading text-[2rem] leading-tight font-semibold text-dark after:mt-4 after:block after:h-0.5 after:w-14 after:bg-gold">

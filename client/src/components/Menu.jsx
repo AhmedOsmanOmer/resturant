@@ -1,12 +1,32 @@
-import { useState } from 'react'
-import menu from '../data/menu'
+import { useEffect, useState } from 'react'
 import MenuItem from './MenuItem'
 
 const categories = ['All', 'Starters', 'Mains', 'Desserts']
 
 function Menu() {
+  const [menu, setMenu] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
   const [category, setCategory] = useState('All')
   const [quantities, setQuantities] = useState({})
+
+  useEffect(() => {
+    async function loadMenu() {
+      try {
+        const response = await fetch('/api/menu')
+        if (!response.ok) {
+          throw new Error('Request failed')
+        }
+        setMenu(await response.json())
+      } catch {
+        setError('We could not load the menu right now. Please try again later.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadMenu()
+  }, [])
 
   const items = category === 'All' ? menu : menu.filter((item) => item.category === category)
 
@@ -23,7 +43,7 @@ function Menu() {
   })
 
   return (
-    <section id="menu" className="scroll-mt-28 py-16 lg:py-24">
+    <section id="menu" className="scroll-mt-32 py-16 lg:scroll-mt-24 lg:py-24">
       <div className="mx-auto max-w-6xl px-5">
         <h2 className="mb-6 font-heading text-[2rem] leading-tight font-semibold text-dark after:mt-4 after:block after:h-0.5 after:w-14 after:bg-gold">
           Our menu
@@ -48,22 +68,36 @@ function Menu() {
             </button>
           ))}
         </div>
-        <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((item) => (
-            <MenuItem
-              key={item.id}
-              item={item}
-              quantity={quantities[item.id] || 0}
-              onQuantityChange={(value) => changeQuantity(item.id, value)}
-            />
-          ))}
-        </ul>
-        <div aria-live="polite" className="mt-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 rounded-md bg-dark px-5 py-4 text-cream">
-          <p>
-            Your order: {count} {count === 1 ? 'item' : 'items'}
+        {loading && (
+          <p role="status" className="mt-8 text-muted">
+            Loading the menu...
           </p>
-          <p className="font-heading text-lg font-semibold text-gold">Total: €{total.toFixed(2)}</p>
-        </div>
+        )}
+        {error && (
+          <p role="alert" className="mt-8 rounded-md border border-line bg-white px-5 py-4 text-dark">
+            {error}
+          </p>
+        )}
+        {!loading && !error && (
+          <>
+            <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {items.map((item) => (
+                <MenuItem
+                  key={item.id}
+                  item={item}
+                  quantity={quantities[item.id] || 0}
+                  onQuantityChange={(value) => changeQuantity(item.id, value)}
+                />
+              ))}
+            </ul>
+            <div aria-live="polite" className="mt-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 rounded-md bg-dark px-5 py-4 text-cream">
+              <p>
+                Your order: {count} {count === 1 ? 'item' : 'items'}
+              </p>
+              <p className="font-heading text-lg font-semibold text-gold">Total: €{total.toFixed(2)}</p>
+            </div>
+          </>
+        )}
       </div>
     </section>
   )

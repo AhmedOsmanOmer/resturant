@@ -3,7 +3,7 @@ const inputClass = 'w-full rounded border border-line bg-cream px-3.5 py-3 text-
 
 function Reservation() {
   return (
-    <section id="reservation" className="scroll-mt-28 py-16 lg:py-24">
+    <section id="reservation" className="scroll-mt-32 py-16 lg:scroll-mt-24 lg:py-24">
       <div className="mx-auto max-w-6xl px-5">
         <h2 className="mb-6 font-heading text-[2rem] leading-tight font-semibold text-dark after:mt-4 after:block after:h-0.5 after:w-14 after:bg-gold">
           Reserve a table
