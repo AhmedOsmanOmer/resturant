@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react'
+import { authClient } from '../lib/authClient'
 import MenuItem from './MenuItem'
 
 const categories = ['All', 'Starters', 'Mains', 'Desserts']
 
-function Menu() {
+function Menu({ onSignIn }) {
+  const { data: session } = authClient.useSession()
   const [menu, setMenu] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [category, setCategory] = useState('All')
   const [quantities, setQuantities] = useState({})
+  const [ordering, setOrdering] = useState(false)
+  const [orderError, setOrderError] = useState('')
 
   useEffect(() => {
     async function loadMenu() {
@@ -41,6 +45,47 @@ function Menu() {
     count = count + quantity
     total = total + quantity * item.price
   })
+
+  async function placeOrder() {
+    if (!session) {
+      onSignIn()
+      return
+    }
+
+    setOrderError('')
+    setOrdering(true)
+
+    const items = Object.keys(quantities)
+      .map((id) => ({ id: Number(id), quantity: quantities[id] }))
+      .filter((item) => item.quantity > 0)
+
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ items }),
+      })
+      const data = await response.json()
+
+      if (response.status === 401) {
+        setOrdering(false)
+        onSignIn()
+        return
+      }
+
+      if (!response.ok) {
+        setOrderError(data.error || 'We could not start your order. Please try again.')
+        setOrdering(false)
+        return
+      }
+
+      window.location.href = data.url
+    } catch {
+      setOrderError('We could not reach the restaurant. Please check your connection and try again.')
+      setOrdering(false)
+    }
+  }
 
   return (
     <section id="menu" className="scroll-mt-32 py-16 lg:scroll-mt-24 lg:py-24">
@@ -90,12 +135,27 @@ function Menu() {
                 />
               ))}
             </ul>
-            <div aria-live="polite" className="mt-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 rounded-md bg-dark px-5 py-4 text-cream">
-              <p>
-                Your order: {count} {count === 1 ? 'item' : 'items'}
-              </p>
-              <p className="font-heading text-lg font-semibold text-gold">Total: €{total.toFixed(2)}</p>
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 rounded-md bg-dark px-5 py-4 text-cream">
+              <div aria-live="polite" className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
+                <p>
+                  Your order: {count} {count === 1 ? 'item' : 'items'}
+                </p>
+                <p className="font-heading text-lg font-semibold text-gold">Total: €{total.toFixed(2)}</p>
+              </div>
+              <button
+                type="button"
+                onClick={placeOrder}
+                disabled={count === 0 || ordering}
+                className="w-full cursor-pointer rounded border border-gold bg-gold px-6 py-3 font-semibold tracking-wide text-dark transition-colors hover:bg-cream hover:border-cream focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-gold disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-gold disabled:hover:bg-gold sm:w-auto"
+              >
+                {ordering ? 'Starting checkout...' : 'Order now'}
+              </button>
             </div>
+            {orderError && (
+              <p role="alert" className="mt-4 rounded-md border border-line bg-white px-5 py-4 text-dark">
+                {orderError}
+              </p>
+            )}
           </>
         )}
       </div>
