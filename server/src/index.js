@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
+import menuRouter from './routes/menu.js'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -11,6 +12,8 @@ app.use(express.json())
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' })
 })
+
+app.use('/api/menu', menuRouter)
 
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server running on port ${port}`)
