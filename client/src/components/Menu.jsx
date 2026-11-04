@@ -1,8 +1,21 @@
 import { useEffect, useState } from 'react'
 import { authClient } from '../lib/authClient'
 import MenuItem from './MenuItem'
+import OrderStatus from './OrderStatus'
 
 const categories = ['All', 'Starters', 'Mains', 'Desserts']
+
+function readCheckout() {
+  const params = new URLSearchParams(window.location.search)
+  const result = params.get('checkout')
+  if (result === 'success' && params.get('order')) {
+    return { type: 'success', orderId: params.get('order') }
+  }
+  if (result === 'cancelled') {
+    return { type: 'cancelled' }
+  }
+  return null
+}
 
 function Menu({ onSignIn }) {
   const { data: session } = authClient.useSession()
@@ -13,6 +26,7 @@ function Menu({ onSignIn }) {
   const [quantities, setQuantities] = useState({})
   const [ordering, setOrdering] = useState(false)
   const [orderError, setOrderError] = useState('')
+  const [checkout, setCheckout] = useState(readCheckout)
 
   useEffect(() => {
     async function loadMenu() {
@@ -30,6 +44,12 @@ function Menu({ onSignIn }) {
     }
 
     loadMenu()
+  }, [])
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).has('checkout')) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.hash)
+    }
   }, [])
 
   const items = category === 'All' ? menu : menu.filter((item) => item.category === category)
@@ -90,12 +110,32 @@ function Menu({ onSignIn }) {
   return (
     <section id="menu" className="scroll-mt-32 py-16 lg:scroll-mt-24 lg:py-24">
       <div className="mx-auto max-w-6xl px-5">
-        <h2 className="mb-6 font-heading text-[2rem] leading-tight font-semibold text-dark after:mt-4 after:block after:h-0.5 after:w-14 after:bg-gold">
-          Our menu
-        </h2>
-        <p className="max-w-2xl leading-relaxed text-muted">
-          A seasonal menu built for sharing, with dishes from the coasts of Lebanon, Greece, Turkey and Sicily.
-        </p>
+        {checkout && checkout.type === 'success' && (
+          <OrderStatus orderId={checkout.orderId} setQuantities={setQuantities} onClose={() => setCheckout(null)} />
+        )}
+        {checkout && checkout.type === 'cancelled' && (
+          <div role="status" className="rounded-md bg-white p-6 shadow-md shadow-dark/5 sm:p-8">
+            <h2 className="font-heading text-2xl font-semibold text-dark">Payment cancelled</h2>
+            <p className="mt-2 text-muted">No money was taken. You can change your order and try again whenever you like.</p>
+            <button
+              type="button"
+              onClick={() => setCheckout(null)}
+              className="mt-6 cursor-pointer rounded border border-dark px-4 py-2 text-sm font-semibold text-dark transition-colors hover:bg-dark hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-gold"
+            >
+              Back to the menu
+            </button>
+          </div>
+        )}
+        {!checkout && (
+          <>
+            <h2 className="mb-6 font-heading text-[2rem] leading-tight font-semibold text-dark after:mt-4 after:block after:h-0.5 after:w-14 after:bg-gold">
+              Our menu
+            </h2>
+            <p className="max-w-2xl leading-relaxed text-muted">
+              A seasonal menu built for sharing, with dishes from the coasts of Lebanon, Greece, Turkey and Sicily.
+            </p>
+          </>
+        )}
         <div className="mt-8 flex flex-wrap gap-2">
           {categories.map((name) => (
             <button

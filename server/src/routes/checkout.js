@@ -93,8 +93,8 @@ router.post('/', requireAuth, async (req, res) => {
       client_reference_id: orderId,
       metadata: { order_id: orderId },
       customer_email: req.user.email,
-      success_url: `${process.env.CLIENT_ORIGIN}/?checkout=success&order=${orderId}`,
-      cancel_url: `${process.env.CLIENT_ORIGIN}/?checkout=cancelled`,
+      success_url: `${process.env.CLIENT_ORIGIN}/?checkout=success&order=${orderId}#menu`,
+      cancel_url: `${process.env.CLIENT_ORIGIN}/?checkout=cancelled#menu`,
     })
     await pool.query('update orders set stripe_session_id = $1 where id = $2', [session.id, orderId])
     res.json({ url: session.url })

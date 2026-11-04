@@ -6,6 +6,7 @@ import { auth } from './auth.js'
 import requireAuth from './middleware/requireAuth.js'
 import menuRouter from './routes/menu.js'
 import checkoutRouter from './routes/checkout.js'
+import ordersRouter from './routes/orders.js'
 import stripeWebhook from './routes/webhooks.js'
 
 const app = express()
@@ -26,6 +27,7 @@ app.get('/api/me', requireAuth, (req, res) => {
 
 app.use('/api/menu', menuRouter)
 app.use('/api/checkout', checkoutRouter)
+app.use('/api/orders', ordersRouter)
 
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server running on port ${port}`)
